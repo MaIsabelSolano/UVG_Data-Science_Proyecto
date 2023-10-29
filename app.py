@@ -2,7 +2,6 @@
     Universidad del Valle de Guatemala
     Data Science 2023
     Grupo#5
-    Proyecto Final
 '''
 
 import io
@@ -76,8 +75,7 @@ if selection == "Realizar predicciones":
                 predicted_class = class_mapping[np.argmax(prediction[0])]
                 
                 # Display the predicted mosquito type
-                st.subheader("Tipo de mosquito:")
-                st.write(predicted_class)
+                st.markdown(f"<h3 style='color: blue;'>Tipo de mosquito: {predicted_class}</h3>", unsafe_allow_html=True)
                 st.write(prediction)
             
                 # Show information about the detected mosquito type
@@ -151,11 +149,14 @@ if selection == "Realizar predicciones":
             with ZipFile(uploaded_zip, 'r') as zip_file:
                 image_paths = zip_file.namelist()
                 grouped_images = {}  # Inicializa un diccionario para agrupar imágenes por tipo de mosquito
+                uploaded_images = []
+                
                 for image_path in image_paths:
                     try:
                         # Load and preprocess each image
                         image_bytes = zip_file.read(image_path)
                         image = Image.open(io.BytesIO(image_bytes))
+                        uploaded_images.append((image, image_path))
                         image = np.array(image)
                         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)  # Ensure images are in RGB format
                         image = cv2.resize(image, (128, 128))  # Resize to (128, 128)
@@ -184,9 +185,16 @@ if selection == "Realizar predicciones":
                     except Exception as e:
                         st.write(f"Error al procesar la imagen {image_path}: {str(e)}")
 
+            # Display uploaded images with their names as captions
+            st.subheader("Imágenes subidas:")
+            columns = 4  # Puedes ajustar la cantidad de columnas en el grid
+            for i in range(0, len(uploaded_images), columns):
+                images_row = uploaded_images[i:i + columns]
+                st.image([image for image, _ in images_row], caption=[name for _, name in images_row], width=150)
+
             # Display information and types for each group of mosquito images
             for mosquito_type, image_paths in grouped_images.items():
-                st.subheader(f"Tipo de mosquito: {mosquito_type}")
+                st.markdown(f"<h3 style='color: blue;'>Tipo de mosquito: {mosquito_type}</h3>", unsafe_allow_html=True)
                 st.write("Imágenes en este grupo:")
                 for image_path in image_paths:
                     st.write(image_path)
