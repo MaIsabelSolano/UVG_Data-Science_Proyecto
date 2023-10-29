@@ -10,6 +10,8 @@ import os
 from tqdm import tqdm
 from PIL import Image
 
+predictor = joblib.load("mosquitos_v3.sav")
+
 # Título de la aplicación
 st.title('Mosquitos')
 
@@ -28,10 +30,20 @@ if selection == "Make Predictions":
         
         # Button to make predictions
         if st.button("Make Predictions"):
-            0
             # Load and preprocess the uploaded image
-            # Call classify_image function to get predictions
-            # Display the predictions
+            image = cv2.imread(uploaded_image)
+            image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)  # Ensure images are in RGB format
+            image = image / 255.0  # Normalize pixel values to [0, 1]
+            image = cv2.resize(image, (64, 64))  # Resize to (64, 64)
+            image = np.array(image)
+
+            # Make a prediction using the loaded model
+            prediction = predictor.predict([image])  # Assuming predictor is a classifier
+            confidence_scores = predictor.predict_proba([image])  # Get confidence scores
+
+            # Display the prediction result and confidence scores
+            st.write("Prediction:", prediction)
+            st.write("Confidence Scores:", confidence_scores)
 
 elif selection == "Model Performance":
     st.title("Model Performance")
