@@ -195,9 +195,7 @@ if selection == "Realizar predicciones":
             # Display information and types for each group of mosquito images
             for mosquito_type, image_paths in grouped_images.items():
                 st.markdown(f"<h3 style='color: blue;'>Tipo de mosquito: {mosquito_type}</h3>", unsafe_allow_html=True)
-                st.write("Imágenes en este grupo:")
-                for image_path in image_paths:
-                    st.write(image_path)
+                st.write(f"Imágenes en este grupo: {image_paths}")
                     
                 # Show information about the detected mosquito type
                 if mosquito_type == "Aedes aegypti":
