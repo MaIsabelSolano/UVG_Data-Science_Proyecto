@@ -259,14 +259,38 @@ if selection == "Realizar predicciones":
                     st.write("Su distribución geográfica está en constante cambio.")
         
 
+
 elif selection == "Performance de modelos":
     st.title("Performance de modelos")
-
+    model_to_use = st.radio("Modelo a utilizar", ["1 (Simple)", "2 (Second training)", "3 (80%)"])
+    model_images = ["model1.jpg", "model2.jpg", "model3.jpg"]
+    if model_to_use == "1 (Simple)":
+        st.image(f"./comparison/{model_images[0]}", use_column_width=True, caption="mosquitos_v1")
+        st.subheader("ACCURACY: 60.08%")
+        st.write("Este corresponde a unmodelo de red neuronal convolucional (CNN) utilizando TensorFlow y Keras. Este modelo se enfoca en el procesamiento de imágenes de mosquitos Y Se compone de capas convolucionales para la extracción de características, seguidas de capas de Max Pooling para reducir la dimensionalidad. Tras aplanar la salida, se incluyen capas completamente conectadas con una capa de dropout para regularización. Finalmente, se agrega una capa de salida con una activación softmax para la clasificación. El accuracy que posee es relativamente bajo debido a que este aproach busca la familiarizacion con el dataset a si mismo que un aproach sencillo inicial")
+    if model_to_use == "2 (Second training)":
+        st.image(f"./comparison/{model_images[1]}", use_column_width=True, caption="mosquitos_v2")
+        st.subheader("ACCURACY: 73.62%")
+        st.write("Este modelo, al igual que el modelo anterior, es una red neuronal convolucional (CNN) que procesa imágenes de mosquitos u objetos similares. Comienza con tres capas de convolución, seguidas de capas de Batch Normalization y Max Pooling. La adición de Batch Normalization tiene como objetivo normalizar las activaciones intermedias de las capas convolucionales, lo que puede ayudar a acelerar el entrenamiento y a mejorar la convergencia del modelo. Luego, las capas completamente conectadas y la capa de dropout se utilizan para la clasificación, y el modelo se compila con el optimizador 'Adam' y la función de pérdida 'categorical_crossentropy'. En resumen, este modelo es similar al anterior en términos de su estructura, pero con la adición de Batch Normalization para mejorar el rendimiento y la convergencia del modelo durante el entrenamiento.")
+    if model_to_use == "3 (80%)":
+        st.image(f"./comparison/{model_images[2]}", use_column_width=True, caption="mosquitos_v2")
+        st.subheader("ACCURACY:  80.64%")
+        st.write("A diferencia de los modelos anteriores, este modelo opera con imágenes de mayor resolución (128x128 píxeles). Su estructura comprende tres capas de convolución para la extracción de características, seguidas de capas de Max Pooling para reducir la dimensionalidad de las características extraídas. Después, la salida se aplana y se conecta a dos capas completamente conectadas para la clasificación, con una capa de dropout para prevenir el sobreajuste. El modelo se compila con el optimizador 'Adam' y la función de pérdida 'categorical_crossentropy'. En resumen, este modelo se ajusta a imágenes más detalladas y sigue el enfoque típico de procesamiento de imágenes mediante convoluciones y capas completamente conectadas para la clasificación proporcionando en mayor accuracy posible.")
     # Show performance metrics and interactive graphs
-    0
+
 
 elif selection == "Información extra":
     st.title("Información extra")
+    
+    
+    st.subheader("Sabías que...")
+    st.write("""Los mosquitos, esos pequeños insectos zumbadores que a menudo nos atormentan durante las noches de verano, tienen una serie de datos curiosos que los hacen fascinantes y, a la vez, peligrosos. Estas criaturas, principalmente las hembras, son responsables de la transmisión de diversas enfermedades, incluyendo el chikungunya, el dengue y la malaria, debido a su papel como vectores.
 
-    # Display information about the dataset
-    0
+En primer lugar, los mosquitos son portadores de estos virus y parásitos mortales. Cuando una hembra pica a un humano infectado, ingiere el patógeno y luego lo transmite a su próxima víctima a través de su saliva mientras se alimenta de su sangre. Esto hace que los mosquitos sean eficientes agentes de propagación de enfermedades.
+
+Además, los mosquitos son responsables de más muertes en todo el mundo que cualquier otro animal, debido a las enfermedades que transmiten. Aproximadamente 700 millones de personas contraen enfermedades transmitidas por mosquitos cada año, lo que ilustra la magnitud de su impacto en la salud pública.
+
+Estos datos subrayan la importancia de tomar medidas preventivas, como el uso de repelentes y la eliminación de criaderos de mosquitos, para reducir el riesgo de enfermedades transmitidas por estos pequeños pero peligrosos insectos.""")
+    st.subheader("Resultados")
+    st.write(""" en los resultados y el análisis de un modelo de red neuronal desarrollado para identificar diversas especies de mosquitos a partir de imágenes. Se utilizó una base de datos con 10,700 imágenes reales de mosquitos, divididas en un 80% para el entrenamiento y un 20% para las pruebas. Las categorías de mosquitos incluyen tanto especies como géneros, con la particularidad de que la clasificación de las especies de Culex representa un desafío y, por lo tanto, se agrupan bajo un género. Además, se aborda la limpieza de datos, la configuración de parámetros y una comparación de los algoritmos utilizados en el modelo. Se destaca la creación de una aplicación con Streamlit que permite realizar predicciones de especies de mosquitos a partir de imágenes, mostrar información sobre los modelos y proporcionar detalles generales sobre el proyecto.""")
+
