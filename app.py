@@ -31,7 +31,8 @@ def load_and_preprocess_images(image_paths, target_size):
 
     return np.array(images)
 
-predictor = joblib.load("mosquitos_v3.sav")
+# predictor = joblib.load("mosquitos_v3.sav")
+predictor = joblib.load("extra.sav")
 
 # Sidebar for navigation
 st.sidebar.title("Opciones")
@@ -265,15 +266,66 @@ elif selection == "Performance de modelos":
     model_to_use = st.radio("Modelo a utilizar", ["1 (Simple)", "2 (Second training)", "3 (80%)"])
     model_images = ["model1.jpg", "model2.jpg", "model3.jpg"]
     if model_to_use == "1 (Simple)":
-        st.image(f"./comparison/{model_images[0]}", use_column_width=True, caption="mosquitos_v1")
+        
+        
+        st.markdown("Precisión")
+        df_1 = pd.read_csv('./comparison/A.csv')
+
+        # Seleccionar las columnas de interés
+        df_selected = df_1[['Training Loss', 'Validation Loss']]
+
+        # Mostrar el gráfico de líneas
+        st.line_chart(data=df_selected)
+        
+        st.markdown("Perdida")
+        
+        df_selected = df_1[['Training Accuracy','Validation Accuracy']]
+
+        # Mostrar el gráfico de líneas
+        st.line_chart(data=df_selected)
+        
+        
+        # st.image(f"./comparison/{model_images[0]}", use_column_width=True, caption="mosquitos_v1")
         st.subheader("ACCURACY: 60.08%")
         st.write("Este corresponde a unmodelo de red neuronal convolucional (CNN) utilizando TensorFlow y Keras. Este modelo se enfoca en el procesamiento de imágenes de mosquitos Y Se compone de capas convolucionales para la extracción de características, seguidas de capas de Max Pooling para reducir la dimensionalidad. Tras aplanar la salida, se incluyen capas completamente conectadas con una capa de dropout para regularización. Finalmente, se agrega una capa de salida con una activación softmax para la clasificación. El accuracy que posee es relativamente bajo debido a que este aproach busca la familiarizacion con el dataset a si mismo que un aproach sencillo inicial")
     if model_to_use == "2 (Second training)":
-        st.image(f"./comparison/{model_images[1]}", use_column_width=True, caption="mosquitos_v2")
+        
+        st.markdown("Precisión")
+        df_2 = pd.read_csv('./comparison/B.csv')
+
+        # Seleccionar las columnas de interés
+        df_selected = df_2[['Training Loss', 'Validation Loss']]
+
+        # Mostrar el gráfico de líneas
+        st.line_chart(data=df_selected)
+        
+        st.markdown("Perdida")
+        df_selected = df_2[['Training Accuracy','Validation Accuracy']]
+
+        # Mostrar el gráfico de líneas
+        st.line_chart(data=df_selected)
+        
+        # st.image(f"./comparison/{model_images[1]}", use_column_width=True, caption="mosquitos_v2")
         st.subheader("ACCURACY: 73.62%")
         st.write("Este modelo, al igual que el modelo anterior, es una red neuronal convolucional (CNN) que procesa imágenes de mosquitos u objetos similares. Comienza con tres capas de convolución, seguidas de capas de Batch Normalization y Max Pooling. La adición de Batch Normalization tiene como objetivo normalizar las activaciones intermedias de las capas convolucionales, lo que puede ayudar a acelerar el entrenamiento y a mejorar la convergencia del modelo. Luego, las capas completamente conectadas y la capa de dropout se utilizan para la clasificación, y el modelo se compila con el optimizador 'Adam' y la función de pérdida 'categorical_crossentropy'. En resumen, este modelo es similar al anterior en términos de su estructura, pero con la adición de Batch Normalization para mejorar el rendimiento y la convergencia del modelo durante el entrenamiento.")
     if model_to_use == "3 (80%)":
-        st.image(f"./comparison/{model_images[2]}", use_column_width=True, caption="mosquitos_v2")
+        
+        st.markdown("Precisión")
+        df_3 = pd.read_csv('./comparison/C.csv')
+
+        # Seleccionar las columnas de interés
+        df_selected = df_3[['Training Loss', 'Validation Loss']]
+        
+        # Mostrar el gráfico de líneas
+        st.line_chart(data=df_selected)
+        
+        st.markdown("Perdida")
+
+        df_selected = df_3[['Training Accuracy','Validation Accuracy']]
+
+        # Mostrar el gráfico de líneas
+        st.line_chart(data=df_selected)
+        # st.image(f"./comparison/{model_images[2]}", use_column_width=True, caption="mosquitos_v2")
         st.subheader("ACCURACY:  80.64%")
         st.write("A diferencia de los modelos anteriores, este modelo opera con imágenes de mayor resolución (128x128 píxeles). Su estructura comprende tres capas de convolución para la extracción de características, seguidas de capas de Max Pooling para reducir la dimensionalidad de las características extraídas. Después, la salida se aplana y se conecta a dos capas completamente conectadas para la clasificación, con una capa de dropout para prevenir el sobreajuste. El modelo se compila con el optimizador 'Adam' y la función de pérdida 'categorical_crossentropy'. En resumen, este modelo se ajusta a imágenes más detalladas y sigue el enfoque típico de procesamiento de imágenes mediante convoluciones y capas completamente conectadas para la clasificación proporcionando en mayor accuracy posible.")
     # Show performance metrics and interactive graphs
